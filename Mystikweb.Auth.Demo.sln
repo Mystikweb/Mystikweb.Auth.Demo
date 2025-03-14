@@ -1,11 +1,52 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35828.75 d17.13
+VisualStudioVersion = 17.13.35828.75
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mystikweb.Auth.Demo.AppHost", "src\Mystikweb.Auth.Demo.AppHost\Mystikweb.Auth.Demo.AppHost.csproj", "{D0992FC9-C2A3-9A16-3B33-D53934242FC7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mystikweb.Auth.Demo.ServiceDefaults", "src\Mystikweb.Auth.Demo.ServiceDefaults\Mystikweb.Auth.Demo.ServiceDefaults.csproj", "{218B94A3-8A01-9DD3-77C7-19232621285F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mystikweb.Auth.Demo.Web", "src\Mystikweb.Auth.Demo.Web\Mystikweb.Auth.Demo.Web.csproj", "{3CE5408B-E4C4-8F84-4142-E6D2D77CEBEF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mystikweb.Auth.Demo.ApiService", "src\Mystikweb.Auth.Demo.ApiService\Mystikweb.Auth.Demo.ApiService.csproj", "{B20F50B1-3824-182A-6D81-3248DFEC93A1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mystikweb.Auth.Demo.Tests", "test\Mystikweb.Auth.Demo.Tests\Mystikweb.Auth.Demo.Tests.csproj", "{7B445B43-E408-4D60-3AC4-8C2864FBCF3D}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D0992FC9-C2A3-9A16-3B33-D53934242FC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0992FC9-C2A3-9A16-3B33-D53934242FC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0992FC9-C2A3-9A16-3B33-D53934242FC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0992FC9-C2A3-9A16-3B33-D53934242FC7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{218B94A3-8A01-9DD3-77C7-19232621285F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{218B94A3-8A01-9DD3-77C7-19232621285F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{218B94A3-8A01-9DD3-77C7-19232621285F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{218B94A3-8A01-9DD3-77C7-19232621285F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3CE5408B-E4C4-8F84-4142-E6D2D77CEBEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3CE5408B-E4C4-8F84-4142-E6D2D77CEBEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3CE5408B-E4C4-8F84-4142-E6D2D77CEBEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3CE5408B-E4C4-8F84-4142-E6D2D77CEBEF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B20F50B1-3824-182A-6D81-3248DFEC93A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B20F50B1-3824-182A-6D81-3248DFEC93A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B20F50B1-3824-182A-6D81-3248DFEC93A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B20F50B1-3824-182A-6D81-3248DFEC93A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B445B43-E408-4D60-3AC4-8C2864FBCF3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B445B43-E408-4D60-3AC4-8C2864FBCF3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B445B43-E408-4D60-3AC4-8C2864FBCF3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B445B43-E408-4D60-3AC4-8C2864FBCF3D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{7B445B43-E408-4D60-3AC4-8C2864FBCF3D} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {938D48E4-48EA-4DA0-894C-DCAC5818B484}
