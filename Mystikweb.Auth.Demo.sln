@@ -7,13 +7,21 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mystikweb.Auth.Demo.AppHost
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mystikweb.Auth.Demo.ServiceDefaults", "src\Mystikweb.Auth.Demo.ServiceDefaults\Mystikweb.Auth.Demo.ServiceDefaults.csproj", "{218B94A3-8A01-9DD3-77C7-19232621285F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mystikweb.Auth.Demo.Web", "src\Mystikweb.Auth.Demo.Web\Mystikweb.Auth.Demo.Web.csproj", "{3CE5408B-E4C4-8F84-4142-E6D2D77CEBEF}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mystikweb.Auth.Demo.ApiService", "src\Mystikweb.Auth.Demo.ApiService\Mystikweb.Auth.Demo.ApiService.csproj", "{B20F50B1-3824-182A-6D81-3248DFEC93A1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mystikweb.Auth.Demo.Tests", "test\Mystikweb.Auth.Demo.Tests\Mystikweb.Auth.Demo.Tests.csproj", "{7B445B43-E408-4D60-3AC4-8C2864FBCF3D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mystikweb.Auth.Demo.Identity", "src\Mystikweb.Auth.Demo.Identity\Mystikweb.Auth.Demo.Identity.csproj", "{F12BA4E5-7E5B-4319-8442-81E362C798F8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Identity", "Identity", "{227C9E9E-51EA-444B-89C2-5AE2FB7143C6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mystikweb.Auth.Demo.Web", "src\Mystikweb.Auth.Demo.Web\Mystikweb.Auth.Demo.Web\Mystikweb.Auth.Demo.Web.csproj", "{B1B68E57-ADAB-4642-BA9E-6C1C05054E87}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mystikweb.Auth.Demo.Web.Client", "src\Mystikweb.Auth.Demo.Web\Mystikweb.Auth.Demo.Web.Client\Mystikweb.Auth.Demo.Web.Client.csproj", "{E19DA555-4366-407F-AE9E-59B84B2170F8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mystikweb.Auth.Demo.Web.Shared", "src\Mystikweb.Auth.Demo.Web\Mystikweb.Auth.Demo.Web.Shared\Mystikweb.Auth.Demo.Web.Shared.csproj", "{68D8A187-5637-4262-93BE-6AFA8362C3E0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +37,6 @@ Global
 		{218B94A3-8A01-9DD3-77C7-19232621285F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{218B94A3-8A01-9DD3-77C7-19232621285F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{218B94A3-8A01-9DD3-77C7-19232621285F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3CE5408B-E4C4-8F84-4142-E6D2D77CEBEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3CE5408B-E4C4-8F84-4142-E6D2D77CEBEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3CE5408B-E4C4-8F84-4142-E6D2D77CEBEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3CE5408B-E4C4-8F84-4142-E6D2D77CEBEF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B20F50B1-3824-182A-6D81-3248DFEC93A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B20F50B1-3824-182A-6D81-3248DFEC93A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B20F50B1-3824-182A-6D81-3248DFEC93A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -41,12 +45,29 @@ Global
 		{7B445B43-E408-4D60-3AC4-8C2864FBCF3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7B445B43-E408-4D60-3AC4-8C2864FBCF3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7B445B43-E408-4D60-3AC4-8C2864FBCF3D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F12BA4E5-7E5B-4319-8442-81E362C798F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F12BA4E5-7E5B-4319-8442-81E362C798F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F12BA4E5-7E5B-4319-8442-81E362C798F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F12BA4E5-7E5B-4319-8442-81E362C798F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1B68E57-ADAB-4642-BA9E-6C1C05054E87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1B68E57-ADAB-4642-BA9E-6C1C05054E87}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1B68E57-ADAB-4642-BA9E-6C1C05054E87}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1B68E57-ADAB-4642-BA9E-6C1C05054E87}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E19DA555-4366-407F-AE9E-59B84B2170F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E19DA555-4366-407F-AE9E-59B84B2170F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E19DA555-4366-407F-AE9E-59B84B2170F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E19DA555-4366-407F-AE9E-59B84B2170F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68D8A187-5637-4262-93BE-6AFA8362C3E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68D8A187-5637-4262-93BE-6AFA8362C3E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68D8A187-5637-4262-93BE-6AFA8362C3E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68D8A187-5637-4262-93BE-6AFA8362C3E0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{7B445B43-E408-4D60-3AC4-8C2864FBCF3D} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{F12BA4E5-7E5B-4319-8442-81E362C798F8} = {227C9E9E-51EA-444B-89C2-5AE2FB7143C6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {938D48E4-48EA-4DA0-894C-DCAC5818B484}

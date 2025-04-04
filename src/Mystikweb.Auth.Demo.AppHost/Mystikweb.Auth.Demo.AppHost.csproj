@@ -13,12 +13,15 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Mystikweb.Auth.Demo.ApiService\Mystikweb.Auth.Demo.ApiService.csproj" />
-    <ProjectReference Include="..\Mystikweb.Auth.Demo.Web\Mystikweb.Auth.Demo.Web.csproj" />
+    <ProjectReference Include="..\Mystikweb.Auth.Demo.Identity\Mystikweb.Auth.Demo.Identity.csproj" />
+    <ProjectReference Include="..\Mystikweb.Auth.Demo.Web\Mystikweb.Auth.Demo.Web\Mystikweb.Auth.Demo.Web.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Aspire.Hosting.AppHost" Version="9.1.0" />
+    <PackageReference Include="Aspire.Hosting.PostgreSQL" Version="9.1.0" />
     <PackageReference Include="Aspire.Hosting.Redis" Version="9.1.0" />
+    <PackageReference Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.1.0" />
   </ItemGroup>
 
 </Project>
