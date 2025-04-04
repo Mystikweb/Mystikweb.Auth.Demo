@@ -1,4 +1,5 @@
 using Microsoft.FluentUI.AspNetCore.Components;
+using Mystikweb.Auth.Demo.Web.Client.Pages;
 using Mystikweb.Auth.Demo.Web.Components;
 
 var builder = WebApplication.CreateBuilder(args);
