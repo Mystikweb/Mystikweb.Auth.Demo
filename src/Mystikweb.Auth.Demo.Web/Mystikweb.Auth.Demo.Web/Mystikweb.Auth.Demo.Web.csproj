@@ -7,13 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Mystikweb.Auth.Demo.ServiceDefaults\Mystikweb.Auth.Demo.ServiceDefaults.csproj" />
-    <ProjectReference Include="..\Mystikweb.Auth.Demo.Web.Client\Mystikweb.Auth.Demo.Web.Client.csproj" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="9.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="9.0.4" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components" Version="4.11.0" />
-    <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components.Icons" Version="4.11.0" />
+    <ProjectReference Include="..\..\Mystikweb.Auth.Demo.ServiceDefaults\Mystikweb.Auth.Demo.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\Mystikweb.Auth.Demo.Web.Client\Mystikweb.Auth.Demo.Web.Client.csproj" />
   </ItemGroup>
+  
 </Project>

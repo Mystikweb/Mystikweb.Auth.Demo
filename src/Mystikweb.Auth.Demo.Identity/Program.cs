@@ -2,20 +2,96 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Mystikweb.Auth.Demo.Identity.Data;
 using Mystikweb.Auth.Demo.Identity.Services;
+using Quartz;
+using static OpenIddict.Abstractions.OpenIddictConstants;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddControllersWithViews();
+builder.Services.AddRazorPages();
+
 // Add services to the container.
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-	options.UseNpgsql(builder.Configuration.GetConnectionString("identitydb")
-		?? throw new InvalidOperationException("Connection string 'identitydb' not found.")));
+builder.AddNpgsqlDbContext<ApplicationDbContext>("identitydb", configureDbContextOptions: configure =>
+{
+	configure.UseOpenIddict();
+});
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-	.AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddDefaultIdentity<IdentityUser>(options =>
+{
+	// Configure identity options.
+	options.SignIn.RequireConfirmedAccount = true;
+	options.User.RequireUniqueEmail = true;
+}).AddEntityFrameworkStores<ApplicationDbContext>();
 
-builder.Services.AddControllersWithViews();
+// OpenIddict offers native integration with Quartz.NET to perform scheduled tasks
+// (like pruning orphaned authorizations/tokens from the database) at regular intervals.
+builder.Services.AddQuartz(options =>
+{
+	options.UseSimpleTypeLoader();
+	options.UseInMemoryStore();
+});
+
+// Register the Quartz.NET service and configure it to block shutdown until jobs are complete.
+builder.Services.AddQuartzHostedService(options => options.WaitForJobsToComplete = true);
+
+builder.Services.AddOpenIddict()
+
+	// Register the OpenIddict core components.
+	.AddCore(options =>
+	{
+		// Configure OpenIddict to use the Entity Framework Core stores and models.
+		// Note: call ReplaceDefaultEntities() to replace the default OpenIddict entities.
+		options.UseEntityFrameworkCore()
+			   .UseDbContext<ApplicationDbContext>();
+
+		// Enable Quartz.NET integration.
+		options.UseQuartz();
+	})
+
+	// Register the OpenIddict server components.
+	.AddServer(options =>
+	{
+		// Enable the authorization, logout, token and userinfo endpoints.
+		options.SetAuthorizationEndpointUris("connect/authorize")
+			   .SetEndSessionEndpointUris("connect/logout")
+			   .SetIntrospectionEndpointUris("connect/introspect")
+			   .SetTokenEndpointUris("connect/token")
+			   .SetUserInfoEndpointUris("connect/userinfo")
+			   .SetEndUserVerificationEndpointUris("connect/verify");
+
+		// Mark the "email", "profile" and "roles" scopes as supported scopes.
+		options.RegisterScopes(Scopes.Email, Scopes.Profile, Scopes.Roles);
+
+		// Note: this sample only uses the authorization code and refresh token
+		// flows but you can enable the other flows if you need to support
+		// implicit, password or client credentials.
+		options.AllowAuthorizationCodeFlow()
+			   .AllowRefreshTokenFlow();
+
+		// Register the signing and encryption credentials.
+		options.AddDevelopmentEncryptionCertificate()
+			   .AddDevelopmentSigningCertificate();
+
+		// Register the ASP.NET Core host and configure the ASP.NET Core-specific options.
+		options.UseAspNetCore()
+			   .EnableAuthorizationEndpointPassthrough()
+			   .EnableEndSessionEndpointPassthrough()
+			   .EnableTokenEndpointPassthrough()
+			   .EnableUserInfoEndpointPassthrough()
+			   .EnableStatusCodePagesIntegration();
+	})
+
+	// Register the OpenIddict validation components.
+	.AddValidation(options =>
+	{
+		// Import the configuration from the local OpenIddict server instance.
+		options.UseLocalServer();
+
+		// Register the ASP.NET Core host.
+		options.UseAspNetCore();
+	});
 
 builder.Services.AddHostedService<MigrationStartupService>();
 
@@ -24,11 +100,14 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+	app.UseDeveloperExceptionPage();
 	app.UseMigrationsEndPoint();
 }
 else
 {
-	app.UseExceptionHandler("/Home/Error");
+	app.UseStatusCodePagesWithReExecute("/Home/Error");
+	//app.UseExceptionHandler("/Home/Error");
+
 	// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
 	app.UseHsts();
 }
@@ -36,6 +115,7 @@ else
 app.UseHttpsRedirection();
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapStaticAssets();
