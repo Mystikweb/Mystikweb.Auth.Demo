@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <Sdk Name="Aspire.AppHost.Sdk" Version="9.0.0" />
+  <Sdk Name="Aspire.AppHost.Sdk" Version="9.2.0" />
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -15,6 +15,7 @@
     <ProjectReference Include="..\Mystikweb.Auth.Demo.ApiService\Mystikweb.Auth.Demo.ApiService.csproj" />
     <ProjectReference Include="..\Mystikweb.Auth.Demo.Identity\Mystikweb.Auth.Demo.Identity.csproj" />
     <ProjectReference Include="..\Mystikweb.Auth.Demo.Web\Mystikweb.Auth.Demo.Web\Mystikweb.Auth.Demo.Web.csproj" />
+    <ProjectReference Include="..\Mystikweb.Auth.Demo\Mystikweb.Auth.Demo.csproj" IsAspireProjectResource="false" />
   </ItemGroup>
 
   <ItemGroup>
