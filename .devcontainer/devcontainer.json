@@ -1,0 +1,90 @@
+// This file defines the development container configuration for the Mystikweb Aspire SSO Authentication Demo project.
+{
+  "name": "Mystikweb Aspire SSO Authentication Demo",
+  // Dockerfile or Docker Compose that will build the image for the dev container.
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": ".",
+    "args": {
+      // Update the version of the base image as needed.
+      "VARIANT": "1.2.6-noble"
+    }
+  },
+
+  // Features to add to the dev container. More info: https://containers.dev/features.
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {},
+    "ghcr.io/devcontainers/features/dotnet": {
+      "version": "latest",
+      "workloads": "aspire, wasm-tools"
+    },
+    "ghcr.io/devcontainers/features/git-lfs:1": {},
+    "ghcr.io/devcontainers/features/github-cli:1": {},
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "lts"
+    },
+    "ghcr.io/devcontainers/features/powershell:1": {
+      "version": "latest"
+    }
+  },
+
+  // Mount volumes for the dev certificates and user secrets to be persisted after the dev container is stopped.
+  "mounts": [
+    {
+      "type": "volume",
+      "source": "sso-user-secrets",
+      "target": "/home/vscode/.microsoft/usersecrets"
+    },
+    {
+      "type": "volume",
+      "source": "sso-x509stores",
+      "target": "/home/vscode/.dotnet/corefx/cryptography/x509stores"
+    }
+  ],
+
+  // Configure tool-specific properties.
+  "customizations": {
+    "vscode": {
+      // Add the IDs of extensions you want installed when the container is created.
+      "extensions": [
+        "angular.ng-template",
+        "dbaeumer.vscode-eslint",
+        "editorconfig.editorconfig",
+        "esbenp.prettier-vscode",
+        "GitHub.copilot",
+        "GitHub.copilot-chat",
+        "GitHub.vscode-github-actions",
+        "GitHub.vscode-pull-request-github",
+        "ms-azuretools.vscode-containers",
+        "ms-dotnettools.csdevkit",
+        "ms-dotnettools.csharp",
+        "ms-dotnettools.vscodeintellicode-csharp"
+      ],
+
+      "settings": {
+        "dotnet.defaultSolution": "Mystikweb.Auth.Demo.sln",
+        "remote.autoForwardPortsSource": "hybrid",
+        "remote.localPortHost": "allInterfaces"
+      }
+    }
+  },
+
+  // Use 'forwardPorts' to make a list of ports inside the container available locally.
+  // "forwardPorts": [5000, 5001],
+  // "portsAttributes": {
+  //		"5001": {
+  //			"protocol": "https"
+  //		}
+  // }
+
+  // Use 'onCreateCommand' to run commands when the container is created.
+  "onCreateCommand": "bash .devcontainer/onCreateCommand.sh",
+
+  // Use 'postCreateCommand' to run commands after the container is created.
+  "postCreateCommand": "bash .devcontainer/postCreateCommand.sh",
+
+  // Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
+  // "remoteUser": "root"
+
+  "runArgs": ["--name", "mystikweb-sso-aspire-dev"]
+}

@@ -1,0 +1,21 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": ".NET Core Launch App Host",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/src/Mystikweb.Auth.Demo.AppHost/bin/Debug/net9.0/Mystikweb.Auth.Demo.AppHost.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "stopAtEntry": false,
+            "console": "internalConsole",
+            "launchSettingsProfile": "https",
+            "launchSettingsFilePath": "${workspaceFolder}/src/Mystikweb.Auth.Demo.AppHost/Properties/launchSettings.json",
+        }
+    ]
+}

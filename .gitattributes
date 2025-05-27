@@ -4,6 +4,12 @@
 * text=auto
 
 ###############################################################################
+# Git will always convert line endings to LF on checkout. 
+# Used for files that must keep LF endings, even on Windows.
+###############################################################################
+*.sh text eol=lf
+
+###############################################################################
 # Set default behavior for command prompt diff.
 #
 # This is need for earlier builds of msysgit that does not have it on by
