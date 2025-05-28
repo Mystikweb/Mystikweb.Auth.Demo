@@ -10,12 +10,17 @@
             "request": "launch",
             "preLaunchTask": "build",
             "program": "${workspaceFolder}/src/Mystikweb.Auth.Demo.AppHost/bin/Debug/net9.0/Mystikweb.Auth.Demo.AppHost.dll",
+            "launchSettingsProfile": "https",
+            "launchSettingsFilePath": "${workspaceFolder}/src/Mystikweb.Auth.Demo.AppHost/Properties/launchSettings.json",
             "args": [],
             "cwd": "${workspaceFolder}",
             "stopAtEntry": false,
             "console": "internalConsole",
-            "launchSettingsProfile": "https",
-            "launchSettingsFilePath": "${workspaceFolder}/src/Mystikweb.Auth.Demo.AppHost/Properties/launchSettings.json",
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "\\bLogin to the dashboard at:\\s+(https?://\\S+)",
+                "uriFormat": "%s"
+            },
         }
     ]
 }

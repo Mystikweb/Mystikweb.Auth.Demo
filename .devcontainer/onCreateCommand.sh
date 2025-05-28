@@ -3,6 +3,7 @@
 # Change ownership of the .dotnet directory to the vscode user (to avoid permission errors)
 sudo chown -R vscode:vscode /home/vscode/.aspnet
 sudo chown -R vscode:vscode /home/vscode/.dotnet
+sudo chown -R vscode:vscode /home/vscode/.dotnet/corefx/cryptography/x509stores/my
 sudo chown -R vscode:vscode /home/vscode/.dotnet/tools
 sudo chown -R vscode:vscode /home/vscode/.local
 sudo chown -R vscode:vscode /home/vscode/.nuget
