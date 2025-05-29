@@ -9,7 +9,7 @@ namespace Mystikweb.Auth.Demo.Web.Controllers;
 
 public sealed class AuthenticationController : Controller
 {
-    [HttpGet("~/login")]
+    [HttpGet("login")]
     public IActionResult Login(string returnUrl = "/")
     {
         var properties = new AuthenticationProperties
@@ -22,7 +22,7 @@ public sealed class AuthenticationController : Controller
         return Challenge(properties, OpenIddictClientAspNetCoreDefaults.AuthenticationScheme);
     }
 
-    [HttpPost("~/logout"), ValidateAntiForgeryToken]
+    [HttpPost("logout"), ValidateAntiForgeryToken]
     public async Task<ActionResult> LogOut(string returnUrl)
     {
         // Retrieve the identity stored in the local authentication cookie. If it's not available,
@@ -62,7 +62,7 @@ public sealed class AuthenticationController : Controller
     // Note: this controller uses the same callback action for all providers
     // but for users who prefer using a different action per provider,
     // the following action can be split into separate actions.
-    [HttpGet("~/login-callback/{provider?}"), HttpPost("~/login-callback/{provider?}"), IgnoreAntiforgeryToken]
+    [HttpGet("login-callback/{provider?}"), HttpPost("login-callback/{provider?}"), IgnoreAntiforgeryToken]
     public async Task<ActionResult> LogInCallback(string provider)
     {
         // Retrieve the authorization data validated by OpenIddict as part of the callback handling.
@@ -178,7 +178,7 @@ public sealed class AuthenticationController : Controller
     // Note: this controller uses the same callback action for all providers
     // but for users who prefer using a different action per provider,
     // the following action can be split into separate actions.
-    [HttpGet("~/logout-callback/{provider?}"), HttpPost("~/logout-callback/{provider?}"), IgnoreAntiforgeryToken]
+    [HttpGet("logout-callback/{provider?}"), HttpPost("logout-callback/{provider?}"), IgnoreAntiforgeryToken]
     public async Task<ActionResult> LogOutCallback(string provider)
     {
         // Retrieve the data stored by OpenIddict in the state token created when the logout was triggered.

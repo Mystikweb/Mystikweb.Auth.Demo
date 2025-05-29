@@ -47,9 +47,10 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.Cookie.Name = "__Host-Auth";
         options.Cookie.SameSite = SameSiteMode.Strict;
         options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-        options.LoginPath = "/Account/Login";
-        options.LogoutPath = "/Account/Logout";
-        options.AccessDeniedPath = "/Account/AccessDenied";
+        options.LoginPath = "/authentication/login";
+        options.LogoutPath = "/authentication/logout";
+        options.ExpireTimeSpan = TimeSpan.FromDays(14);
+        options.SlidingExpiration = false;
     });
 
 // OpenIddict offers native integration with Quartz.NET to perform scheduled tasks
@@ -58,6 +59,7 @@ builder.Services.AddQuartz(options =>
 {
     options.UseSimpleTypeLoader();
     options.UseInMemoryStore();
+    options.UseTimeZoneConverter();
 });
 
 // Register the Quartz.NET service and configure it to block shutdown until jobs are complete.
@@ -209,7 +211,6 @@ builder.Services.AddRazorComponents()
     .AddAuthenticationStateSerialization(options => options.SerializeAllClaims = true);
 
 builder.Services.AddFluentUIComponents();
-
 
 var app = builder.Build();
 

@@ -21,6 +21,8 @@
     <PackageReference Include="OpenIddict.EntityFrameworkCore" Version="6.3.0" />
     <PackageReference Include="OpenIddict.Quartz" Version="6.3.0" />
     <PackageReference Include="Quartz.Extensions.Hosting" Version="3.14.0" />
+    <PackageReference Include="Quartz.Plugins.TimeZoneConverter" Version="3.14.0" />
+    <PackageReference Include="Quartz.Serialization.SystemTextJson" Version="3.14.0" />
     <PackageReference Include="Yarp.ReverseProxy" Version="2.3.0" />
   </ItemGroup>
 
