@@ -3,6 +3,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Mystikweb.Auth.Demo.Identity.Data;
 
-public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : IdentityDbContext(options)
+public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : IdentityDbContext<ApplicationUser>(options)
 {
 }

@@ -1,14 +1,13 @@
 using System.Diagnostics;
 
-using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage;
 
-namespace Mystikweb.Auth.Demo.Web.Services;
+namespace Mystikweb.Auth.Demo.ApiService.Services;
 
 public sealed class MigrationStartupService(IServiceProvider serviceProvider) : BackgroundService
 {
-    public const string ActivitySourceName = "Blazor Web App Database Migrations";
+    public const string ActivitySourceName = "API Service Database Migrations";
 
     public bool IsCompleted { get; private set; } = false;
 
@@ -16,7 +15,7 @@ public sealed class MigrationStartupService(IServiceProvider serviceProvider) : 
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        using var activity = _activitySource.StartActivity("Setup Blazor Web App database.", ActivityKind.Client);
+        using var activity = _activitySource.StartActivity("Setup API Service database.", ActivityKind.Client);
 
         try
         {

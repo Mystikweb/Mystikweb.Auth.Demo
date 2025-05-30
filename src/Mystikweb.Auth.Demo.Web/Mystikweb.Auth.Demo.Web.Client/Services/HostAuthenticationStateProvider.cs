@@ -3,15 +3,14 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.JSInterop;
 
 using Mystikweb.Auth.Demo.Web.Shared;
-using Mystikweb.Auth.Demo.Web.Shared.Abstractions;
 using Mystikweb.Auth.Demo.Web.Shared.Models;
 
 namespace Mystikweb.Auth.Demo.Web.Client.Services;
 
 public sealed class HostAuthenticationStateProvider(ILogger<HostAuthenticationStateProvider> logger,
+    IServiceScopeFactory scopeFactory,
     NavigationManager navigationManager,
-    IJSRuntime jsRuntime,
-    IUserApiClient userApiClient) : AuthenticationStateProvider, IAsyncDisposable
+    IJSRuntime jsRuntime) : AuthenticationStateProvider, IAsyncDisposable
 {
     private static readonly TimeSpan UserCahceRefrehInterval = TimeSpan.FromSeconds(60);
     private const string LogInPath = "Account/Login";
@@ -68,6 +67,10 @@ public sealed class HostAuthenticationStateProvider(ILogger<HostAuthenticationSt
         }
 
         logger.LogInformation("Fetching user from API.");
+
+        using var scope = scopeFactory.CreateScope();
+        var userApiClient = scope.ServiceProvider.GetRequiredService<IUserApiClient>();
+
         result = await userApiClient.GetCurrentUserAsync(cancellationToken);
 
         if (result is null)

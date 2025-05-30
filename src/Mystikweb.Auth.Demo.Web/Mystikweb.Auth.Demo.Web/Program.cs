@@ -24,7 +24,7 @@ builder.AddServiceDefaults();
 
 builder.AddRedisOutputCache(ServiceConstants.CacheService.RESOURCE_NAME);
 
-builder.AddNpgsqlDbContext<ApplicationDbContext>(ServiceConstants.BlazorService.DATABASE_NAME,
+builder.AddNpgsqlDbContext<ApplicationDbContext>(ServiceConstants.BlazorService.DATABASE_RESOURCE_NAME,
     configureDbContextOptions: configure => configure.UseOpenIddict());
 
 if (builder.Environment.IsDevelopment())
@@ -199,6 +199,10 @@ builder.Services.AddReverseProxy()
 // Replace the default HTTP client factory used by YARP by an instance able to inject the HTTP delegating
 // handler that will be used to attach the access tokens to HTTP requests or refresh tokens if necessary.
 builder.Services.AddSingleton<IForwarderHttpClientFactory, TokenRefreshingForwarderHttpClientFactory>();
+
+builder.Services.AddOpenTelemetry()
+    .WithTracing(tracing =>
+        tracing.AddSource(MigrationStartupService.ActivitySourceName));
 
 builder.Services.AddHostedService<MigrationStartupService>();
 

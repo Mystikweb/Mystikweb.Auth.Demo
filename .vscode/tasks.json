@@ -8,6 +8,7 @@
             "args": [
                 "build",
                 "${workspaceFolder}/Mystikweb.Auth.Demo.sln",
+                "--no-incremental",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary;ForceNoAlign"
             ],

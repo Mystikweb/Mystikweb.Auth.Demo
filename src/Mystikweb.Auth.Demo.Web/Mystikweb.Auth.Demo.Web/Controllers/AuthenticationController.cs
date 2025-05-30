@@ -7,6 +7,7 @@ using OpenIddict.Client.AspNetCore;
 
 namespace Mystikweb.Auth.Demo.Web.Controllers;
 
+[Route("authentication")]
 public sealed class AuthenticationController : Controller
 {
     [HttpGet("login")]
@@ -162,9 +163,9 @@ public sealed class AuthenticationController : Controller
             //
             // The expiration date of the access token is also preserved to later determine
             // whether the access token is expired and proactively refresh tokens if necessary.
-            OpenIddictClientAspNetCoreConstants.Tokens.BackchannelAccessToken               or
+            OpenIddictClientAspNetCoreConstants.Tokens.BackchannelAccessToken or
             OpenIddictClientAspNetCoreConstants.Tokens.BackchannelAccessTokenExpirationDate or
-            OpenIddictClientAspNetCoreConstants.Tokens.BackchannelIdentityToken             or
+            OpenIddictClientAspNetCoreConstants.Tokens.BackchannelIdentityToken or
             OpenIddictClientAspNetCoreConstants.Tokens.RefreshToken));
 
         // Ask the default sign-in handler to return a new cookie and redirect the

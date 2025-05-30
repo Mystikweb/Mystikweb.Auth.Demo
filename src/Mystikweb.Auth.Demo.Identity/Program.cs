@@ -10,13 +10,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.AddServiceDefaults();
 
 // Add services to the container.
-builder.AddNpgsqlDbContext<ApplicationDbContext>(ServiceConstants.IdentityService.DATABASE_NAME,
+builder.AddNpgsqlDbContext<ApplicationDbContext>(ServiceConstants.IdentityService.DATABASE_RESOURCE_NAME,
     configureDbContextOptions: configure => configure.UseOpenIddict());
 
 if (builder.Environment.IsDevelopment())
     builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options =>
+builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
 {
     // Configure identity options.
     options.SignIn.RequireConfirmedAccount = true;
@@ -46,8 +46,6 @@ builder.Services.AddOpenIddict()
         // Enable Quartz.NET integration.
         options.UseQuartz();
     })
-
-    // Register the OpenIddict server components.
     .AddServer(options =>
     {
         // Enable the authorization, logout, token and userinfo endpoints.
@@ -79,8 +77,6 @@ builder.Services.AddOpenIddict()
                .EnableUserInfoEndpointPassthrough()
                .EnableStatusCodePagesIntegration();
     })
-
-    // Register the OpenIddict validation components.
     .AddValidation(options =>
     {
         // Import the configuration from the local OpenIddict server instance.
@@ -89,6 +85,10 @@ builder.Services.AddOpenIddict()
         // Register the ASP.NET Core host.
         options.UseAspNetCore();
     });
+
+builder.Services.AddOpenTelemetry()
+    .WithTracing(tracing =>
+        tracing.AddSource(MigrationStartupService.ActivitySourceName));
 
 builder.Services.AddHostedService<MigrationStartupService>();
 
@@ -113,17 +113,14 @@ else
 }
 
 app.UseHttpsRedirection();
+app.UseStaticFiles();
 
 app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapStaticAssets();
-app.MapDefaultControllerRoute()
-    .WithStaticAssets();
-
-app.MapRazorPages()
-   .WithStaticAssets();
+app.MapDefaultControllerRoute();
+app.MapRazorPages();
 
 app.Run();

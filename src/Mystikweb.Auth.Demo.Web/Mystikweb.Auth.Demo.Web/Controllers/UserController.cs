@@ -7,7 +7,7 @@ using Mystikweb.Auth.Demo.Web.Shared.Models;
 
 namespace Mystikweb.Auth.Demo.Web.Controllers;
 
-[Route("api/[controller]")]
+[Route("[controller]")]
 [ApiController]
 [AllowAnonymous]
 public sealed class UserController : ControllerBase
