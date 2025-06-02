@@ -42,23 +42,19 @@ public sealed class PersonEntityConfiguration : AddressBookEntityConfiguration<P
 
         builder
             .Property(p => p.FirstName)
-            .HasColumnName("first_name")
             .HasMaxLength(64)
             .IsRequired();
 
         builder
             .Property(p => p.LastName)
-            .HasColumnName("last_name")
             .HasMaxLength(64)
             .IsRequired();
 
         builder
-            .Property(p => p.BirthDate)
-            .HasColumnName("birth_date");
+            .Property(p => p.BirthDate);
 
         builder
             .Property(p => p.Email);
-
 
         builder
             .HasMany(p => p.Addresses)

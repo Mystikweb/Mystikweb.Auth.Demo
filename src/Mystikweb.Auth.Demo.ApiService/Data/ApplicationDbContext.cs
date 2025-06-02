@@ -20,6 +20,8 @@ public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<Applicati
         var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
         optionsBuilder.UseNpgsql("Host=localhost;Database=AddressBook;Username=postgres;Password=yourpassword");
 
+        optionsBuilder.UseSnakeCaseNamingConvention();
+
         return new ApplicationDbContext(optionsBuilder.Options);
     }
 }

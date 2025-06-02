@@ -24,8 +24,8 @@ builder.AddServiceDefaults();
 
 builder.AddRedisOutputCache(ServiceConstants.CacheService.RESOURCE_NAME);
 
-builder.AddNpgsqlDbContext<ApplicationDbContext>(ServiceConstants.BlazorService.DATABASE_RESOURCE_NAME,
-    configureDbContextOptions: configure => configure.UseOpenIddict());
+builder.AddNpgsqlDbContext<ApplicationDbContext>(ServiceConstants.BlazorService.DATABASE_RESOURCE_NAME, null,
+    options => options.UseOpenIddict());
 
 if (builder.Environment.IsDevelopment())
     builder.Services.AddDatabaseDeveloperPageExceptionFilter();

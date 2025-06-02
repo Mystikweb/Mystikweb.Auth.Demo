@@ -7,7 +7,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add service defaults & Aspire client integrations.
 builder.AddServiceDefaults();
 
-builder.AddNpgsqlDbContext<ApplicationDbContext>(ServiceConstants.ApiService.DATABASE_RESOURCE_NAME);
+builder.AddNpgsqlDbContext<ApplicationDbContext>(ServiceConstants.ApiService.DATABASE_RESOURCE_NAME, null, options =>
+    options.UseSnakeCaseNamingConvention());
 builder.AddRedisOutputCache(ServiceConstants.CacheService.RESOURCE_NAME);
 
 builder.Services.AddScoped<IAddressBookLogic, AddressBookLogic>();

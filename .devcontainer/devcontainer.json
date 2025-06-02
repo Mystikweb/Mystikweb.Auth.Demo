@@ -16,6 +16,7 @@
     "ghcr.io/devcontainers/features/docker-in-docker:2": {},
     "ghcr.io/devcontainers/features/dotnet": {
       "version": "latest",
+      "additionalVersions": "lts",
       "workloads": "aspire, wasm-tools"
     },
     "ghcr.io/devcontainers/features/git-lfs:1": {},

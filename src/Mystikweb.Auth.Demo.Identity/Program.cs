@@ -10,8 +10,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.AddServiceDefaults();
 
 // Add services to the container.
-builder.AddNpgsqlDbContext<ApplicationDbContext>(ServiceConstants.IdentityService.DATABASE_RESOURCE_NAME,
-    configureDbContextOptions: configure => configure.UseOpenIddict());
+builder.AddNpgsqlDbContext<ApplicationDbContext>(ServiceConstants.IdentityService.DATABASE_RESOURCE_NAME, null,
+    options => options.UseOpenIddict());
 
 if (builder.Environment.IsDevelopment())
     builder.Services.AddDatabaseDeveloperPageExceptionFilter();

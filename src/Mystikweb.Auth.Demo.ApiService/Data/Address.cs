@@ -41,41 +41,34 @@ public sealed class AddressEntityConfiguration : AddressBookEntityConfiguration<
 
         builder
             .Property(p => p.Line1)
-            .HasColumnName("line_1")
             .HasMaxLength(128)
             .IsRequired();
 
         builder
             .Property(p => p.Line2)
-            .HasColumnName("line_2")
             .HasMaxLength(128);
 
         builder
             .Property(p => p.City)
-            .HasColumnName("city")
             .HasMaxLength(64)
             .IsRequired();
 
         builder
             .Property(p => p.State)
-            .HasColumnName("state")
             .HasMaxLength(64)
             .IsRequired();
 
         builder
             .Property(p => p.PostalCode)
-            .HasColumnName("postal_code")
             .HasMaxLength(16)
             .IsRequired();
 
         builder
             .Property(p => p.Country)
-            .HasColumnName("country")
             .HasMaxLength(64);
 
         builder
             .Property(p => p.PersonId)
-            .HasColumnName("person_id")
             .IsRequired();
     }
 }
