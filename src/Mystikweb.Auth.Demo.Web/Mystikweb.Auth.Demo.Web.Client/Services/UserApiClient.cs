@@ -1,6 +1,5 @@
 using System.Net.Http.Json;
 
-using Mystikweb.Auth.Demo.Web.Shared.Abstractions;
 using Mystikweb.Auth.Demo.Web.Shared.Models;
 
 namespace Mystikweb.Auth.Demo.Web.Client.Services;
