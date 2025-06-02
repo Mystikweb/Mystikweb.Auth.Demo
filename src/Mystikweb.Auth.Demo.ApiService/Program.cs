@@ -9,6 +9,7 @@ builder.AddServiceDefaults();
 
 builder.AddNpgsqlDbContext<ApplicationDbContext>(ServiceConstants.ApiService.DATABASE_RESOURCE_NAME, null, options =>
     options.UseSnakeCaseNamingConvention());
+
 builder.AddRedisOutputCache(ServiceConstants.CacheService.RESOURCE_NAME);
 
 builder.Services.AddScoped<IAddressBookLogic, AddressBookLogic>();

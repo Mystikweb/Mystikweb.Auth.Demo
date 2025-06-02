@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Design;
 
 namespace Mystikweb.Auth.Demo.Identity.Data;
 
-public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : IdentityDbContext<ApplicationUser>(options)
+public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : IdentityDbContext<ApplicationUser, ApplicationRole, string>(options)
 {
 }
 
@@ -16,6 +16,7 @@ public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<Applicati
         optionsBuilder.UseNpgsql("Host=localhost;Database=Identity;Username=postgres;Password=yourpassword");
 
         optionsBuilder.UseOpenIddict();
+        optionsBuilder.UseSnakeCaseNamingConvention();
 
         return new ApplicationDbContext(optionsBuilder.Options);
     }

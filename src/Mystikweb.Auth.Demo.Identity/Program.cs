@@ -10,18 +10,23 @@ var builder = WebApplication.CreateBuilder(args);
 builder.AddServiceDefaults();
 
 // Add services to the container.
-builder.AddNpgsqlDbContext<ApplicationDbContext>(ServiceConstants.IdentityService.DATABASE_RESOURCE_NAME, null,
-    options => options.UseOpenIddict());
+builder.AddNpgsqlDbContext<ApplicationDbContext>(ServiceConstants.IdentityService.DATABASE_RESOURCE_NAME, null, options =>
+{
+    options.UseOpenIddict();
+    options.UseSnakeCaseNamingConvention();
+});
 
 if (builder.Environment.IsDevelopment())
     builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
+builder.Services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
 {
     // Configure identity options.
     options.SignIn.RequireConfirmedAccount = true;
     options.User.RequireUniqueEmail = true;
-}).AddEntityFrameworkStores<ApplicationDbContext>();
+}).AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultUI()
+    .AddDefaultTokenProviders();
 
 // OpenIddict offers native integration with Quartz.NET to perform scheduled tasks
 // (like pruning orphaned authorizations/tokens from the database) at regular intervals.
@@ -41,7 +46,8 @@ builder.Services.AddOpenIddict()
         // Configure OpenIddict to use the Entity Framework Core stores and models.
         // Note: call ReplaceDefaultEntities() to replace the default OpenIddict entities.
         options.UseEntityFrameworkCore()
-               .UseDbContext<ApplicationDbContext>();
+               .UseDbContext<ApplicationDbContext>()
+               .DisableBulkOperations();
 
         // Enable Quartz.NET integration.
         options.UseQuartz();

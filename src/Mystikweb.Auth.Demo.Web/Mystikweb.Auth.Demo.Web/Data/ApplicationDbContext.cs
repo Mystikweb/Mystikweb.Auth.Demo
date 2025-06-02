@@ -15,6 +15,7 @@ public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<Applicati
         optionsBuilder.UseNpgsql("Host=localhost;Database=Blazor;Username=postgres;Password=yourpassword");
 
         optionsBuilder.UseOpenIddict();
+        optionsBuilder.UseSnakeCaseNamingConvention();
 
         return new ApplicationDbContext(optionsBuilder.Options);
     }

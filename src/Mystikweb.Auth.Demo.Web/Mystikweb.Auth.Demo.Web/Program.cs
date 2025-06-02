@@ -24,8 +24,11 @@ builder.AddServiceDefaults();
 
 builder.AddRedisOutputCache(ServiceConstants.CacheService.RESOURCE_NAME);
 
-builder.AddNpgsqlDbContext<ApplicationDbContext>(ServiceConstants.BlazorService.DATABASE_RESOURCE_NAME, null,
-    options => options.UseOpenIddict());
+builder.AddNpgsqlDbContext<ApplicationDbContext>(ServiceConstants.BlazorService.DATABASE_RESOURCE_NAME, null, options =>
+{
+    options.UseOpenIddict();
+    options.UseSnakeCaseNamingConvention();
+});
 
 if (builder.Environment.IsDevelopment())
     builder.Services.AddDatabaseDeveloperPageExceptionFilter();
@@ -71,7 +74,8 @@ builder.Services.AddOpenIddict()
         // Configure OpenIddict to use the Entity Framework Core stores and models.
         // Note: call ReplaceDefaultEntities() to replace the default OpenIddict entities.
         options.UseEntityFrameworkCore()
-            .UseDbContext<ApplicationDbContext>();
+            .UseDbContext<ApplicationDbContext>()
+            .DisableBulkOperations();
 
         // Enable Quartz.NET integration.
         options.UseQuartz();
