@@ -71,12 +71,27 @@
   },
 
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
-  // "forwardPorts": [5000, 5001],
-  // "portsAttributes": {
-  //		"5001": {
-  //			"protocol": "https"
-  //		}
-  // }
+  "forwardPorts": [17269, 21244, 22255, 6370, 5450, 5451, 5452, 7553, 7169, 7211, 7700],
+  "portsAttributes": {
+  		"17269": {
+  			"protocol": "https"
+  		},
+      "21244": {
+        "protocol": "https"
+      },
+      "22255": {
+        "protocol": "https"
+      },
+      "7553": {
+        "protocol": "https"
+      },
+      "7169": {
+        "protocol": "https"
+      },
+      "7211": {
+        "protocol": "https"
+      }
+  },
 
   // Use 'onCreateCommand' to run commands when the container is created.
   "onCreateCommand": "bash .devcontainer/onCreateCommand.sh",

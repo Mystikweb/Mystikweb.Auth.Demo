@@ -4,7 +4,7 @@ export function clearCachedUser() {
 
 export function getCachedUser() {
     const cachedUser = localStorage.getItem('cachedUser');
-    return cachedUser ? JSON.parse(cachedUser) : null;
+    return !!cachedUser ? JSON.parse(cachedUser) : null;
 }
 
 export function isUserCached() {

@@ -138,6 +138,7 @@ builder.Services.AddHttpForwarderWithServiceDiscovery();
 
 builder.Services.AddReverseProxy()
     .LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"))
+    .AddServiceDiscoveryDestinationResolver()
     .AddTransforms(builder =>
     {
         builder.AddRequestTransform(async context =>

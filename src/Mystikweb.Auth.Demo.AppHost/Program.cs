@@ -2,11 +2,11 @@ using Mystikweb.Auth.Demo;
 
 var builder = DistributedApplication.CreateBuilder(args);
 
-var cache = builder.AddRedis(ServiceConstants.CacheService.RESOURCE_NAME)
+var cache = builder.AddRedis(ServiceConstants.CacheService.RESOURCE_NAME, ServiceConstants.CacheService.RESOURCE_PORT)
     .WithContainerName(ServiceConstants.CacheService.RESOURCE_CONTAINER_NAME)
     .WithDataVolume(ServiceConstants.CacheService.RESOURCE_DATA_VOLUME)
     .WithLifetime(ContainerLifetime.Persistent)
-    .WithDbGate(containerName: ServiceConstants.DATABASE_MANAGEMENT_RESOURCE_NAME);
+    .AddDbGateReference();
 
 var identityDbUsername = builder.AddParameter(ServiceConstants.IdentityService.DATABASE_SERVER_USERNAME_PARAMETER, true);
 var identityDbPassword = builder.AddParameter(ServiceConstants.IdentityService.DATABASE_SERVER_PASSWORD_PARAMETER, true);
@@ -14,12 +14,13 @@ var identityDbServer = builder.AddPostgres(ServiceConstants.IdentityService.DATA
     .WithContainerName(ServiceConstants.IdentityService.DATABASE_SERVER_CONTAINER_NAME)
     .WithDataVolume(ServiceConstants.IdentityService.DATABASE_SERVER_DATA_VOLUME)
     .WithLifetime(ContainerLifetime.Persistent)
-    .WithDbGate(containerName: ServiceConstants.DATABASE_MANAGEMENT_RESOURCE_NAME);
+    .AddDbGateReference();
 
 var identityDb = identityDbServer
     .AddDatabase(ServiceConstants.IdentityService.DATABASE_RESOURCE_NAME, ServiceConstants.IdentityService.DATABASE_NAME);
 
 var identity = builder.AddProject<Projects.Mystikweb_Auth_Demo_Identity>(ServiceConstants.IdentityService.SERVER_RESOURCE_NAME)
+    .WithExternalHttpEndpoints()
     .WithReference(cache)
     .WaitFor(cache)
     .WithReference(identityDb)
@@ -33,7 +34,7 @@ var apiDbServer = builder.AddPostgres(ServiceConstants.ApiService.DATABASE_SERVE
     .WithContainerName(ServiceConstants.ApiService.DATABASE_SERVER_CONTAINER_NAME)
     .WithDataVolume(ServiceConstants.ApiService.DATABASE_SERVER_DATA_VOLUME)
     .WithLifetime(ContainerLifetime.Persistent)
-    .WithDbGate(containerName: ServiceConstants.DATABASE_MANAGEMENT_RESOURCE_NAME);
+    .AddDbGateReference();
 
 var apiDb = apiDbServer
     .AddDatabase(ServiceConstants.ApiService.DATABASE_RESOURCE_NAME, ServiceConstants.ApiService.DATABASE_NAME);
@@ -53,7 +54,7 @@ var blazorDbServer = builder.AddPostgres(ServiceConstants.BlazorService.DATABASE
     .WithContainerName(ServiceConstants.BlazorService.DATABASE_SERVER_CONTAINER_NAME)
     .WithDataVolume(ServiceConstants.BlazorService.DATABASE_SERVER_DATA_VOLUME)
     .WithLifetime(ContainerLifetime.Persistent)
-    .WithDbGate(containerName: ServiceConstants.DATABASE_MANAGEMENT_RESOURCE_NAME);
+    .AddDbGateReference();
 
 var blazorDb = blazorDbServer
     .AddDatabase(ServiceConstants.BlazorService.DATABASE_RESOURCE_NAME, ServiceConstants.BlazorService.DATABASE_NAME);

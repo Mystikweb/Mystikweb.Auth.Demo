@@ -21,6 +21,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.ServiceDiscovery.Dns" Version="9.3.0" />
     <PackageReference Include="Microsoft.Extensions.ServiceDiscovery.Yarp" Version="9.3.0" />
     <PackageReference Include="OpenIddict.AspNetCore" Version="6.3.0" />
     <PackageReference Include="OpenIddict.EntityFrameworkCore" Version="6.3.0" />

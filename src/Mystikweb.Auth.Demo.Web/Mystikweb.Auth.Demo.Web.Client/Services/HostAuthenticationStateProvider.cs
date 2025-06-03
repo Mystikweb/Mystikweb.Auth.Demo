@@ -18,7 +18,7 @@ public sealed class HostAuthenticationStateProvider(ILogger<HostAuthenticationSt
 
     private DateTimeOffset _userLastCheck = DateTimeOffset.FromUnixTimeSeconds(0);
     private readonly Lazy<Task<IJSObjectReference>> _moduleTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>(
-        "import", "./_content/Mystikweb.Auth.Demo.Web.Client/userCacheStorage.js").AsTask());
+        "import", "./_content/Mystikweb.Auth.Demo.Web.Shared/js/userCacheStorage.js").AsTask());
 
     public override async Task<AuthenticationState> GetAuthenticationStateAsync()
     {
@@ -69,7 +69,7 @@ public sealed class HostAuthenticationStateProvider(ILogger<HostAuthenticationSt
         logger.LogInformation("Fetching user from API.");
 
         using var scope = scopeFactory.CreateScope();
-        var userApiClient = scope.ServiceProvider.GetRequiredService<IUserApiClient>();
+        var userApiClient = scope.ServiceProvider.GetRequiredService<UserApiClient>();
 
         result = await userApiClient.GetCurrentUserAsync(cancellationToken);
 
@@ -81,7 +81,7 @@ public sealed class HostAuthenticationStateProvider(ILogger<HostAuthenticationSt
         }
         else
         {
-            await module.InvokeVoidAsync("cacheUser", result);
+            await module.InvokeVoidAsync("setCachedUser", result);
             logger.LogInformation("User fetched and cached successfully.");
         }
 

@@ -1,12 +1,12 @@
 ﻿@page "/address-book"
 
-@using Microsoft.AspNetCore.Authorization
+@rendermode InteractiveWebAssembly
 
 @attribute [StreamRendering]
 @attribute [Authorize]
 
 @inject ILogger<AddressBook> Logger
-@inject IAddressBookApiClient AddressBookApiClient
+@inject IServiceScopeFactory ScopeFactory
 
 <PageTitle>Address Book</PageTitle>
 
@@ -20,9 +20,18 @@
 
     protected override async Task OnInitializedAsync()
     {
+        using var scope = ScopeFactory.CreateScope();
+
         try
         {
-            addressBook = (await AddressBookApiClient.GetPeopleAsync()).AsQueryable();
+            var addressBookApiClient = scope.ServiceProvider.GetService<AddressBookApiClient>();
+            if (addressBookApiClient is null)
+            {
+                Logger.LogError("AddressBookApiClient is not registered in the service provider.");
+                addressBook = Enumerable.Empty<PersonItem>().AsQueryable();
+            }
+            else
+                addressBook = (await addressBookApiClient.GetPeopleAsync()).AsQueryable();
         }
         catch (Exception ex)
         {

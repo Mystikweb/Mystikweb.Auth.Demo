@@ -18,9 +18,9 @@
             "console": "internalConsole",
             "serverReadyAction": {
                 "action": "openExternally",
-                "pattern": "\\bLogin to the dashboard at:\\s+(https?://\\S+)",
+                "pattern": "Login to the dashboard at (https?://\\S+)",
                 "uriFormat": "%s"
-            },
+            }
         }
     ]
 }
