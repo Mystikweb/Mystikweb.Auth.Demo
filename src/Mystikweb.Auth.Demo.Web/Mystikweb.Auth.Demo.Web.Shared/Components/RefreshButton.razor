@@ -1,0 +1,49 @@
+﻿@using Microsoft.FluentUI.AspNetCore.Components.Utilities
+
+@rendermode InteractiveAuto
+
+<div style="@ContainerStyle">
+    <FluentButton Id="@ButtonId" Title="Refresh" IconEnd="@IconAtEnd" IconStart="@IconAtStart"
+        OnClick="@OnClickHandlerAsync">@ButtonText</FluentButton>
+</div>
+
+@code {
+    private string ButtonId => Identifier.NewId();
+
+    private string ButtonText => IsFloating ? string.Empty : "Refresh";
+
+    private string? ContainerStyle
+    {
+        get
+        {
+            var styleBuilder = new StyleBuilder();
+
+            if (IsFloating)
+            {
+                styleBuilder.AddStyle("position", "absolute")
+                .AddStyle("bottom", "2em")
+                .AddStyle("right", "2em")
+                .AddStyle("z-index", "1000")
+                .AddStyle("width", "3.5em")
+                .AddStyle("height", "3.5em");
+            }
+
+            return styleBuilder.Build();
+        }
+    }
+
+    private Icon? IconAtEnd => IsFloating ? new Icons.Regular.Size24.ArrowSync() : null;
+    private Icon? IconAtStart => IsFloating ? null : new Icons.Regular.Size24.ArrowSync();
+
+    [Parameter]
+    public bool IsFloating { get; set; } = false;
+
+    [Parameter]
+    public required EventCallback<MouseEventArgs> RefreshClicked { get; set; }
+
+    private async Task OnClickHandlerAsync(MouseEventArgs e)
+    {
+        if (RefreshClicked.HasDelegate)
+            await RefreshClicked.InvokeAsync(e);
+    }
+}

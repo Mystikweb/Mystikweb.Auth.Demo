@@ -10,39 +10,101 @@
 
 <PageTitle>Address Book</PageTitle>
 
-<FluentDataGrid Id="addressbook-grid" Items="@addressBook" GridTemplateColumns="1fr 1fr" TGridItem="PersonItem">
-    <PropertyColumn Title="First Name" Property="@(c => c.FirstName)" Align="Align.Start" />
-    <PropertyColumn Title="Last Name" Property="@(c => c.LastName)" Align="Align.Start" />
-    <PropertyColumn Title="Email" Property="@(c => c.Email)" Align="Align.Start" />
-    <PropertyColumn Title="Birth Date" Property="@(c => c.BirthDate)" Align="Align.Center" />
-    <PropertyColumn Title="Addresses" Property="@(c => c.AddressItems.Count)" Align="Align.Center" />
-    <PropertyColumn Title="Updated By" Property="@(c => c.UpdateBy ?? c.InsertBy)" Align="Align.End" />
-    <PropertyColumn Title="Updated At" Property="@(c => c.UpdateAt ?? c.InsertAt)" Align="Align.End" />
-</FluentDataGrid>
+<FluentToolbar Orientation="Orientation.Horizontal">
+    @if (Loading == false)
+    {
+        <h5>Total Records: @ItemCount</h5>
+    }
+    <FluentSpacer />
+    <RefreshButton RefreshClicked="@RefreshTableAsync" />
+</FluentToolbar>
+<div class="table-page">
+    <div class="table-container" tabindex="-1">
+        <FluentDataGrid @ref="TableGrid" Items="@Items" TGridItem="PersonItem" GridTemplateColumns="0.3fr 0.3fr 0.3fr 0.4fr 0.2fr 0.3fr 0.3fr"
+            RowSize="DataGridRowSize.Small" GenerateHeader="GenerateHeaderOption.Sticky" Loading="@Loading"
+            RefreshItems="RefreshItemsAsync">
+            <ChildContent>
+                <PropertyColumn Title="First Name" Property="@(c => c.FirstName)" Align="Align.Start" Sortable="true"
+                    InitialSortDirection="SortDirection.Ascending" IsDefaultSortColumn="true" />
+                <PropertyColumn Title="Last Name" Property="@(c => c.LastName)" Align="Align.Start" Sortable="true" />
+                <PropertyColumn Title="Email" Property="@(c => c.Email)" Align="Align.Start" />
+                <PropertyColumn Title="Birth Date" Property="@(c => c.BirthDate)" Align="Align.Center"
+                    Format="yyyy-MM-dd" Sortable="true" />
+                <PropertyColumn Title="Addresses" Property="@(c => c.AddressItems.Count)" Align="Align.Center" />
+                <PropertyColumn Title="Updated By" Property="@(c => c.UpdateBy ?? c.InsertBy)" Align="Align.End" />
+                <PropertyColumn Title="Updated At" Property="@(c => c.UpdateAt ?? c.InsertAt)" Align="Align.End" Format="G" />
+            </ChildContent>
+            <EmptyContent>
+                <FluentIcon Value="@(new Icons.Regular.Size24.DocumentBulletListOff())" Color="Color.Accent" /> No
+                records
+                found.
+            </EmptyContent>
+            <LoadingContent>
+                <FluentStack Orientation="Orientation.Vertical" HorizontalAlignment="HorizontalAlignment.Center">
+                    Loading...<br />
+                    <FluentProgress Width="240px" />
+                </FluentStack>
+            </LoadingContent>
+        </FluentDataGrid>
+    </div>
+</div>
 
 @code {
-    private IQueryable<PersonItem>? addressBook;
+    private FluentDataGrid<PersonItem> TableGrid = default!;
+    private IQueryable<PersonItem>? Items;
+    private int ItemCount => Items?.Count() ?? 0;
+    private bool Loading = false;
 
-    protected override async Task OnInitializedAsync()
+    private GridItemsProviderRequest<PersonItem>? _currentRequest = null;
+
+    private async Task<IEnumerable<PersonItem>> GetItemsAsync()
     {
-        using var scope = ScopeFactory.CreateScope();
+        var results = Enumerable.Empty<PersonItem>();
 
         try
         {
+            using var scope = ScopeFactory.CreateScope();
             var addressBookApiClient = scope.ServiceProvider.GetService<AddressBookApiClient>();
+
             if (addressBookApiClient is null)
-            {
                 Logger.LogError("AddressBookApiClient is not registered in the service provider.");
-                addressBook = Enumerable.Empty<PersonItem>().AsQueryable();
-            }
             else
-                addressBook = (await addressBookApiClient.GetPeopleAsync()).AsQueryable();
+                results = await addressBookApiClient.GetPeopleAsync();
         }
         catch (Exception ex)
         {
-            Logger.LogError(ex, "Failed to load address book");
-            addressBook = Enumerable.Empty<PersonItem>().AsQueryable();
+            Logger.LogError(ex, "Error fetching address book items");
         }
+
+        return results;
     }
 
+    private async Task RefreshItemsAsync(GridItemsProviderRequest<PersonItem> request)
+    {
+        if (_currentRequest.HasValue && request.IsSameRequest(_currentRequest.Value))
+        {
+            Logger.LogWarning("Duplicate request detected: {@Request}", request);
+            return;
+        }
+
+        _currentRequest = request;
+
+        Logger.LogInformation("RefreshItemsAsync called with request: {@Request}", request);
+
+        Loading = true;
+        await InvokeAsync(StateHasChanged);
+
+        var itemList = await GetItemsAsync();
+
+        Items = itemList.AsQueryable();
+
+        Loading = false;
+        _currentRequest = null;
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private async Task RefreshTableAsync()
+    {
+        await TableGrid.RefreshDataAsync(true);
+    }
 }
