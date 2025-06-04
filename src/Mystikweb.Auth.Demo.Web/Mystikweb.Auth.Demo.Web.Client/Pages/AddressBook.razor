@@ -11,8 +11,13 @@
 <PageTitle>Address Book</PageTitle>
 
 <FluentDataGrid Id="addressbook-grid" Items="@addressBook" GridTemplateColumns="1fr 1fr" TGridItem="PersonItem">
-    <PropertyColumn Title="First Name" Property="@(c => c!.FirstName)" Align="Align.Start" />
-    <PropertyColumn Title="Last Name" Property="@(c => c!.LastName)" Align="Align.Start" />
+    <PropertyColumn Title="First Name" Property="@(c => c.FirstName)" Align="Align.Start" />
+    <PropertyColumn Title="Last Name" Property="@(c => c.LastName)" Align="Align.Start" />
+    <PropertyColumn Title="Email" Property="@(c => c.Email)" Align="Align.Start" />
+    <PropertyColumn Title="Birth Date" Property="@(c => c.BirthDate)" Align="Align.Center" />
+    <PropertyColumn Title="Addresses" Property="@(c => c.AddressItems.Count)" Align="Align.Center" />
+    <PropertyColumn Title="Updated By" Property="@(c => c.UpdateBy ?? c.InsertBy)" Align="Align.End" />
+    <PropertyColumn Title="Updated At" Property="@(c => c.UpdateAt ?? c.InsertAt)" Align="Align.End" />
 </FluentDataGrid>
 
 @code {
