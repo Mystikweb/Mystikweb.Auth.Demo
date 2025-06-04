@@ -10,9 +10,9 @@ public abstract class AddressBookBaseEntity : BaseEntity<Guid>
         : base(lazyLoader) { }
 
     public required string InsertBy { get; set; }
-    public required DateTimeOffset InsertAt { get; set; }
+    public required Instant InsertAt { get; set; }
     public string? UpdateBy { get; set; }
-    public DateTimeOffset? UpdateAt { get; set; }
+    public Instant? UpdateAt { get; set; }
 }
 
 
@@ -27,32 +27,26 @@ public abstract class AddressBookEntityConfiguration<T> : IEntityTypeConfigurati
 
         builder
             .Property(p => p.Id)
-            .HasColumnName("id")
             .HasColumnType("uuid");
 
         builder
             .Property(p => p.InsertBy)
-            .HasColumnName("insert_by")
             .HasMaxLength(64)
             .IsRequired();
 
         builder
             .Property(p => p.InsertAt)
-            .HasColumnName("insert_at")
             .IsRequired();
 
         builder
             .Property(p => p.UpdateBy)
-            .HasColumnName("update_by")
             .HasMaxLength(64);
 
         builder
-            .Property(p => p.UpdateAt)
-            .HasColumnName("update_at");
+            .Property(p => p.UpdateAt);
 
         builder
             .Property(p => p.Timestamp)
-            .HasColumnName("timestamp")
             .IsRowVersion()
             .IsConcurrencyToken();
     }

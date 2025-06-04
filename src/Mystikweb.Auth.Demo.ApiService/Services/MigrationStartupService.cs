@@ -3,6 +3,9 @@ using System.Diagnostics;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage;
 
+using RandomDataGenerator.FieldOptions;
+using RandomDataGenerator.Randomizers;
+
 namespace Mystikweb.Auth.Demo.ApiService.Services;
 
 public sealed class MigrationStartupService(IServiceProvider serviceProvider) : BackgroundService
@@ -12,6 +15,36 @@ public sealed class MigrationStartupService(IServiceProvider serviceProvider) : 
     public bool IsCompleted { get; private set; } = false;
 
     private static readonly ActivitySource _activitySource = new(ActivitySourceName);
+
+    private static readonly IRandomizerNumber<int> _recordCountGenerator = RandomizerFactory.GetRandomizer(new FieldOptionsInteger
+    {
+        Min = 10,
+        Max = 100
+    });
+    private static readonly IRandomizerNumber<int> _addressCountGenerator = RandomizerFactory.GetRandomizer(new FieldOptionsInteger
+    {
+        Min = 1,
+        Max = 2
+    });
+
+    private static readonly IRandomizerString _firstNameGenerator = RandomizerFactory.GetRandomizer(new FieldOptionsFirstName());
+    private static readonly IRandomizerString _lastNameGenerator = RandomizerFactory.GetRandomizer(new FieldOptionsLastName());
+    private static readonly IRandomizerDateTime _birthDateGenerator = RandomizerFactory.GetRandomizer(new FieldOptionsDateTime());
+    private static readonly IRandomizerString _emailGenerator = RandomizerFactory.GetRandomizer(new FieldOptionsEmailAddress());
+    private static readonly IRandomizerString _addressLineGenerator = RandomizerFactory.GetRandomizer(new FieldOptionsText
+    {
+        Min = 10,
+        Max = 50,
+        UseSpecial = false
+    });
+    private static readonly IRandomizerString _cityGenerator = RandomizerFactory.GetRandomizer(new FieldOptionsCity());
+    private static readonly IRandomizerString _stateGenerator = RandomizerFactory.GetRandomizer(new FieldOptionsCountry());
+    private static readonly IRandomizerString _countryGenerator = RandomizerFactory.GetRandomizer(new FieldOptionsCountry());
+    private static readonly IRandomizerString _postalCodeGenerator = RandomizerFactory.GetRandomizer(new FieldOptionsTextRegex
+    {
+        Pattern = @"^\d{5}(-\d{4})?$", // US ZIP code format
+    });
+
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
@@ -26,6 +59,7 @@ public sealed class MigrationStartupService(IServiceProvider serviceProvider) : 
 
             await EnsureDatabaseAsync(dbContext, activity, stoppingToken);
             await RunMigrationAsync(dbContext, activity, stoppingToken);
+            await SeedDataAsync(dbContext, activity, stoppingToken);
 
             activity?.AddEvent(new ActivityEvent("Database migration complete"));
             activity?.SetStatus(ActivityStatusCode.Ok);
@@ -75,5 +109,70 @@ public sealed class MigrationStartupService(IServiceProvider serviceProvider) : 
                 }
             }
         });
+    }
+
+    private static async Task SeedDataAsync(ApplicationDbContext dbContext, Activity? activity, CancellationToken cancellationToken)
+    {
+        activity?.AddEvent(new ActivityEvent("Seeding initial data"));
+
+        var personCount = _recordCountGenerator.Generate() ?? 10;
+
+        var insertUser = nameof(MigrationStartupService);
+        var insertAt = Instant.FromDateTimeOffset(DateTimeOffset.UtcNow);
+
+        foreach (var i in Enumerable.Range(1, personCount))
+        {
+            activity?.AddEvent(new ActivityEvent("Inserting person record.", tags: [
+                new KeyValuePair<string, object?>("PersonIndex", i)
+            ]));
+
+            try
+            {
+                var person = new Person
+                {
+                    FirstName = _firstNameGenerator.Generate() ?? $"FirstName{i}",
+                    LastName = _lastNameGenerator.Generate() ?? $"LastName{i}",
+                    BirthDate = LocalDateTime.FromDateTime(_birthDateGenerator.Generate() ?? DateTime.UtcNow.AddYears(i)),
+                    Email = _emailGenerator.Generate() ?? "something went wrong",
+                    InsertBy = insertUser,
+                    InsertAt = insertAt
+                };
+
+                await dbContext.People.AddAsync(person, cancellationToken);
+                await dbContext.SaveChangesAsync(cancellationToken);
+
+                var addressCount = _addressCountGenerator.Generate() ?? 1;
+
+                foreach (var a in Enumerable.Range(1, addressCount))
+                {
+                    activity?.AddEvent(new ActivityEvent("Inserting person address record.", tags: [
+                        new KeyValuePair<string, object?>("PersonIndex", i),
+                    new KeyValuePair<string, object?>("AddressIndex", a)
+                    ]));
+
+                    var address = new Address
+                    {
+                        PersonId = person.Id,
+                        Line1 = _addressLineGenerator.Generate() ?? $"Address Line {a} for Person {i}",
+                        City = _cityGenerator.Generate() ?? "City",
+                        State = _stateGenerator.Generate() ?? "State",
+                        Country = _countryGenerator.Generate() ?? "Country",
+                        PostalCode = _postalCodeGenerator.Generate() ?? "Postal Code",
+                        InsertBy = insertUser,
+                        InsertAt = insertAt
+                    };
+
+                    await dbContext.Addresses.AddAsync(address, cancellationToken);
+                }
+
+                await dbContext.SaveChangesAsync(cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                activity?.AddException(ex, [
+                    new KeyValuePair<string, object?>("PersonIndex", i)
+                ]);
+            }
+        }
     }
 }

@@ -1,5 +1,7 @@
 using Mystikweb.Auth.Demo;
 
+using NodaTime.Serialization.SystemTextJson;
+
 using OpenIddict.Validation.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,7 +10,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.AddServiceDefaults();
 
 builder.AddNpgsqlDbContext<ApplicationDbContext>(ServiceConstants.ApiService.DATABASE_RESOURCE_NAME, null, options =>
-    options.UseSnakeCaseNamingConvention());
+{
+    options.UseNpgsql(configure => configure.UseNodaTime());
+    options.UseSnakeCaseNamingConvention();
+});
 
 builder.AddRedisOutputCache(ServiceConstants.CacheService.RESOURCE_NAME);
 
@@ -18,6 +23,7 @@ builder.Services.AddProblemDetails();
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddOpenIddict()
     .AddValidation(options =>

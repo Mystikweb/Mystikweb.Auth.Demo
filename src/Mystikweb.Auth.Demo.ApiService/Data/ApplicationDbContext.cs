@@ -18,7 +18,8 @@ public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<Applicati
     public ApplicationDbContext CreateDbContext(string[] args)
     {
         var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
-        optionsBuilder.UseNpgsql("Host=localhost;Database=AddressBook;Username=postgres;Password=yourpassword");
+        optionsBuilder.UseNpgsql("Host=localhost;Database=AddressBook;Username=postgres;Password=yourpassword",
+            configure => configure.UseNodaTime());
 
         optionsBuilder.UseSnakeCaseNamingConvention();
 

@@ -40,6 +40,7 @@ var apiDb = apiDbServer
     .AddDatabase(ServiceConstants.ApiService.DATABASE_RESOURCE_NAME, ServiceConstants.ApiService.DATABASE_NAME);
 
 var apiService = builder.AddProject<Projects.Mystikweb_Auth_Demo_ApiService>(ServiceConstants.ApiService.SERVER_RESOURCE_NAME)
+    .WithExternalHttpEndpoints()
     .WithEnvironment(ServiceConstants.IDENTITY_URI_ENVIRONMENT_VARIABLE, identityUri)
     .WithReference(cache)
     .WaitFor(cache)

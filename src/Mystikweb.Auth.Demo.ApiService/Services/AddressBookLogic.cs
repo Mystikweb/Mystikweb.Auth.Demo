@@ -4,8 +4,11 @@ public sealed class AddressBookLogic(ApplicationDbContext context) : IAddressBoo
 {
     public async Task<IEnumerable<PersonItem>> GetPeopleAsync(CancellationToken cancellationToken = default)
     {
-        return await (from p in context.People
-                      let addresses = (from a in context.Addresses
+        var people = await context.People.AsNoTracking().ToListAsync(cancellationToken);
+        var addresses = await context.Addresses.AsNoTracking().ToListAsync(cancellationToken);
+
+        return (from p in people
+                let personAddresses = (from a in addresses
                                        where a.PersonId == p.Id
                                        select new PersonAddressItem
                                        {
@@ -17,22 +20,22 @@ public sealed class AddressBookLogic(ApplicationDbContext context) : IAddressBoo
                                            PostalCode = a.PostalCode,
                                            Country = a.Country,
                                            InsertBy = a.InsertBy,
-                                           InsertAt = a.InsertAt,
+                                           InsertAt = a.InsertAt.ToDateTimeOffset(),
                                            UpdateBy = a.UpdateBy,
-                                           UpdateAt = a.UpdateAt
+                                           UpdateAt = a.UpdateAt.HasValue ? a.UpdateAt.Value.ToDateTimeOffset() : null
                                        }).ToList()
-                        select new PersonItem
-                        {
-                            Id = p.Id,
-                            FirstName = p.FirstName,
-                            LastName = p.LastName,
-                            BirthDate = p.BirthDate,
-                            Email = p.Email,
-                            InsertBy = p.InsertBy,
-                            InsertAt = p.InsertAt,
-                            UpdateBy = p.UpdateBy,
-                            UpdateAt = p.UpdateAt,
-                            AddressItems = addresses
-                        }).AsNoTracking().ToListAsync(cancellationToken);
+                select new PersonItem
+                {
+                    Id = p.Id,
+                    FirstName = p.FirstName,
+                    LastName = p.LastName,
+                    BirthDate = p.BirthDate.HasValue ? p.BirthDate.Value.ToDateTimeUnspecified() : null,
+                    Email = p.Email,
+                    InsertBy = p.InsertBy,
+                    InsertAt = p.InsertAt.ToDateTimeOffset(),
+                    UpdateBy = p.UpdateBy,
+                    UpdateAt = p.UpdateAt.HasValue ? p.UpdateAt.Value.ToDateTimeOffset() : null,
+                    AddressItems = personAddresses
+                }).ToList();
     }
 }
