@@ -1,14 +1,14 @@
 #!/bin/bash
 
 # Change ownership of the .dotnet directory to the vscode user (to avoid permission errors)
-sudo chown -R vscode:vscode /home/vscode/.aspnet
-sudo chown -R vscode:vscode /home/vscode/.dotnet
-sudo chown -R vscode:vscode /home/vscode/.dotnet/corefx/cryptography/x509stores/my
-sudo chown -R vscode:vscode /home/vscode/.dotnet/tools
-sudo chown -R vscode:vscode /home/vscode/.local
-sudo chown -R vscode:vscode /home/vscode/.nuget
-sudo chown -R vscode:vscode /home/vscode/.microsoft
-sudo chown -R vscode:vscode /home/vscode/.microsoft/usersecrets
+sudo chown -R authdemodev:authdemodev /home/authdemodev/.aspnet
+sudo chown -R authdemodev:authdemodev /home/authdemodev/.dotnet
+sudo chown -R authdemodev:authdemodev /home/authdemodev/.dotnet/corefx/cryptography/x509stores/my
+sudo chown -R authdemodev:authdemodev /home/authdemodev/.dotnet/tools
+sudo chown -R authdemodev:authdemodev /home/authdemodev/.local
+sudo chown -R authdemodev:authdemodev /home/authdemodev/.nuget
+sudo chown -R authdemodev:authdemodev /home/authdemodev/.microsoft
+sudo chown -R authdemodev:authdemodev /home/authdemodev/.microsoft/usersecrets
 
 # Setup the .NET Dev Certificates
 sudo dotnet dev-certs https

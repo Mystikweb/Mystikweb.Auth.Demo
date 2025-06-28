@@ -7,7 +7,10 @@
     "context": ".",
     "args": {
       // Update the version of the base image as needed.
-      "VARIANT": "1.2.6-noble"
+      "VARIANT": "1.2.6-noble",
+      "USERNAME": "authdemodev",
+      "USER_UID": "1001",
+      "USER_GID": "1001"
     }
   },
 
@@ -100,7 +103,7 @@
   "postCreateCommand": "bash .devcontainer/postCreateCommand.sh",
 
   // Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
-  // "remoteUser": "root"
+  "remoteUser": "authdemodev",
 
   "runArgs": ["--name", "mystikweb-sso-aspire-dev"]
 }
