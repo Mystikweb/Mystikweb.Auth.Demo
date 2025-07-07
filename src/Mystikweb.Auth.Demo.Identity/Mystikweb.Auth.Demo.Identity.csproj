@@ -20,9 +20,11 @@
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="9.0.0" />
     <PackageReference Include="OpenIddict.AspNetCore" Version="6.4.0" />
-    <PackageReference Include="OpenIddict.EntityFrameworkCore" Version="6.3.0" />
-    <PackageReference Include="OpenIddict.Quartz" Version="6.3.0" />
+    <PackageReference Include="OpenIddict.EntityFrameworkCore" Version="6.4.0" />
+    <PackageReference Include="OpenIddict.Quartz" Version="6.4.0" />
     <PackageReference Include="Quartz.Extensions.Hosting" Version="3.14.0" />
+    <PackageReference Include="Quartz.Plugins.TimeZoneConverter" Version="3.14.0" />
+    <PackageReference Include="Quartz.Serialization.SystemTextJson" Version="3.14.0" />
   </ItemGroup>
 
   <ItemGroup>

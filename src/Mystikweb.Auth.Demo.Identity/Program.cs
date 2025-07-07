@@ -34,6 +34,7 @@ builder.Services.AddQuartz(options =>
 {
     options.UseSimpleTypeLoader();
     options.UseInMemoryStore();
+    options.UseTimeZoneConverter();
 });
 
 // Register the Quartz.NET service and configure it to block shutdown until jobs are complete.

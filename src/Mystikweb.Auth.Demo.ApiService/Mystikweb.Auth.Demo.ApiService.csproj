@@ -30,7 +30,7 @@
     <PackageReference Include="Quartz.Plugins.TimeZoneConverter" Version="3.14.0" />
     <PackageReference Include="Quartz.Serialization.SystemTextJson" Version="3.14.0" />
     <PackageReference Include="RandomDataGenerator.Net" Version="1.0.19" />
-    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="8.1.4" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="9.0.1" />
   </ItemGroup>
 
 </Project>
