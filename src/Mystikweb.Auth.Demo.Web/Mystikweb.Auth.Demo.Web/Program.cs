@@ -207,7 +207,7 @@ builder.Services.AddSingleton<IForwarderHttpClientFactory, TokenRefreshingForwar
 
 builder.Services.AddOpenTelemetry()
     .WithTracing(tracing =>
-        tracing.AddSource(MigrationStartupService.ActivitySourceName));
+        tracing.AddSource(MigrationStartupService.ActivitySourceName, "Yarp.ReverseProxy"));
 
 builder.Services.AddHostedService<MigrationStartupService>();
 

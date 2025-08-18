@@ -232,7 +232,7 @@ public class AuthorizationController(
                 .SetClaim(Claims.Email, await userManager.GetEmailAsync(user))
                 .SetClaim(Claims.Name, await userManager.GetUserNameAsync(user))
                 .SetClaim(Claims.PreferredUsername, await userManager.GetUserNameAsync(user))
-                .SetClaims(Claims.Role, [.. (await userManager.GetRolesAsync(user))]);
+                .SetClaims(Claims.Role, [.. await userManager.GetRolesAsync(user)]);
 
         // Note: in this sample, the granted scopes match the requested scope
         // but you may want to allow the user to uncheck specific scopes.
