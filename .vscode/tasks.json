@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/Mystikweb.Auth.Demo.sln",
+                "${workspaceFolder}/Mystikweb.Auth.Demo.slnx",
                 "--no-incremental",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary;ForceNoAlign"

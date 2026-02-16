@@ -7,10 +7,7 @@
     "context": ".",
     "args": {
       // Update the version of the base image as needed.
-      "VARIANT": "1.2.6-noble",
-      "USERNAME": "authdemodev",
-      "USER_UID": "1001",
-      "USER_GID": "1001"
+      "VARIANT": "noble"
     }
   },
 
@@ -36,12 +33,12 @@
   "mounts": [
     {
       "type": "volume",
-      "source": "sso-user-secrets",
+      "source": "mystikweb-sso-demo-user-secrets",
       "target": "/home/vscode/.microsoft/usersecrets"
     },
     {
       "type": "volume",
-      "source": "sso-x509stores",
+      "source": "mystikweb-sso-demo-x509stores",
       "target": "/home/vscode/.dotnet/corefx/cryptography/x509stores"
     }
   ],
@@ -51,22 +48,20 @@
     "vscode": {
       // Add the IDs of extensions you want installed when the container is created.
       "extensions": [
-        "angular.ng-template",
-        "dbaeumer.vscode-eslint",
+        "eamodio.gitlens",
         "editorconfig.editorconfig",
         "esbenp.prettier-vscode",
-        "GitHub.copilot",
         "GitHub.copilot-chat",
+        "GitHub.remotehub",
         "GitHub.vscode-github-actions",
         "GitHub.vscode-pull-request-github",
         "ms-azuretools.vscode-containers",
         "ms-dotnettools.csdevkit",
-        "ms-dotnettools.csharp",
-        "ms-dotnettools.vscodeintellicode-csharp"
+        "ms-dotnettools.csharp"
       ],
 
       "settings": {
-        "dotnet.defaultSolution": "Mystikweb.Auth.Demo.sln",
+        "dotnet.defaultSolution": "Mystikweb.Auth.Demo.slnx",
         "remote.autoForwardPortsSource": "hybrid",
         "remote.localPortHost": "allInterfaces"
       }
@@ -103,7 +98,7 @@
   "postCreateCommand": "bash .devcontainer/postCreateCommand.sh",
 
   // Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
-  "remoteUser": "authdemodev",
+  // "remoteUser": "root"
 
   "runArgs": ["--name", "mystikweb-sso-aspire-dev"]
 }

@@ -9,8 +9,8 @@ dotnet tool install --global dotnet-ef
 # Install the Aspire Project Templates
 dotnet new install Aspire.ProjectTemplates --force
 
-# Change ownership of the project directory to the container user (to avoid permission errors)
-sudo chown -R authdemodev:authdemodev /workspaces/Mystikweb.Auth.Demo/
+# Install the Aspire CLI
+curl -sSL https://aspire.dev/install.sh | bash
 
 # Initialize Git LFS in the project directory this will fail during the build because the workspace
 # is is still owned by the vscode user, but it will succeed when the container is started

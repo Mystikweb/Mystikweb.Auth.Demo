@@ -1,0 +1,27 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Folder Name="/Identity/">
+    <Project Path="src/Mystikweb.Auth.Demo.Identity/Mystikweb.Auth.Demo.Identity.csproj" />
+  </Folder>
+  <Folder Name="/Infrastructure/">
+    <Project Path="src/Mystikweb.Auth.Demo.ServiceDefaults/Mystikweb.Auth.Demo.ServiceDefaults.csproj" />
+    <Project Path="src/Mystikweb.Auth.Demo/Mystikweb.Auth.Demo.csproj" />
+  </Folder>
+  <Folder Name="/Services/">
+    <Project Path="src/Mystikweb.Auth.Demo.ApiService/Mystikweb.Auth.Demo.ApiService.csproj" />
+  </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+  </Folder>
+  <Folder Name="/Tests/">
+    <Project Path="test/Mystikweb.Auth.Demo.Tests/Mystikweb.Auth.Demo.Tests.csproj" />
+  </Folder>
+  <Project Path="src/Mystikweb.Auth.Demo.AppHost/Mystikweb.Auth.Demo.AppHost.csproj" />
+  <Project Path="src/Mystikweb.Auth.Demo.Web/Mystikweb.Auth.Demo.Web.Client/Mystikweb.Auth.Demo.Web.Client.csproj" />
+  <Project Path="src/Mystikweb.Auth.Demo.Web/Mystikweb.Auth.Demo.Web.Shared/Mystikweb.Auth.Demo.Web.Shared.csproj" />
+  <Project Path="src/Mystikweb.Auth.Demo.Web/Mystikweb.Auth.Demo.Web/Mystikweb.Auth.Demo.Web.csproj" />
+</Solution>
