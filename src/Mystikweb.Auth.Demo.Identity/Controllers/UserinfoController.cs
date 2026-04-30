@@ -18,10 +18,10 @@ public class UserinfoController(UserManager<ApplicationUser> userManager) : Cont
     public Task<IActionResult> UserinfoGet()
         => BuildUserinfoResponseAsync();
 
-    // OIDC userinfo is authenticated via bearer token (not cookies), so CSRF does not apply.
+    // Validate anti-forgery token for POST requests.
     [Authorize(AuthenticationSchemes = OpenIddictServerAspNetCoreDefaults.AuthenticationScheme)]
     [HttpPost("~/connect/userinfo"), Produces("application/json")]
-    [IgnoreAntiforgeryToken]
+    [ValidateAntiForgeryToken]
     public Task<IActionResult> UserinfoPost()
         => BuildUserinfoResponseAsync();
 
