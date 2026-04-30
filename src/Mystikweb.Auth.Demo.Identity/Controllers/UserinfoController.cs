@@ -20,7 +20,7 @@ public class UserinfoController(UserManager<ApplicationUser> userManager) : Cont
 
     [Authorize(AuthenticationSchemes = OpenIddictServerAspNetCoreDefaults.AuthenticationScheme)]
     [HttpPost("~/connect/userinfo"), Produces("application/json")]
-    [IgnoreAntiforgeryToken]
+    [ValidateAntiForgeryToken]
     public Task<IActionResult> UserinfoPost()
         => BuildUserinfoResponseAsync();
 
