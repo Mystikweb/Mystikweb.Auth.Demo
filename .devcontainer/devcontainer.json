@@ -56,7 +56,8 @@
         "GitHub.vscode-pull-request-github",
         "ms-azuretools.vscode-containers",
         "ms-dotnettools.csdevkit",
-        "ms-dotnettools.csharp"
+        "ms-dotnettools.csharp",
+        "ms-vscode.vscode-chat-customizations-evaluations"
       ],
 
       "settings": {

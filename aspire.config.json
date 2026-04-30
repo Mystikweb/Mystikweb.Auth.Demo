@@ -1,0 +1,5 @@
+{
+  "appHost": {
+    "path": "src/Mystikweb.Auth.Demo.AppHost/Mystikweb.Auth.Demo.AppHost.csproj"
+  }
+}
