@@ -14,8 +14,17 @@ public class UserinfoController(UserManager<ApplicationUser> userManager) : Cont
 {
     // GET: /api/userinfo
     [Authorize(AuthenticationSchemes = OpenIddictServerAspNetCoreDefaults.AuthenticationScheme)]
-    [HttpGet("~/connect/userinfo"), HttpPost("~/connect/userinfo"), Produces("application/json")]
-    public async Task<IActionResult> Userinfo()
+    [HttpGet("~/connect/userinfo"), Produces("application/json")]
+    public Task<IActionResult> UserinfoGet()
+        => BuildUserinfoResponseAsync();
+
+    [Authorize(AuthenticationSchemes = OpenIddictServerAspNetCoreDefaults.AuthenticationScheme)]
+    [HttpPost("~/connect/userinfo"), Produces("application/json")]
+    [ValidateAntiForgeryToken]
+    public Task<IActionResult> UserinfoPost()
+        => BuildUserinfoResponseAsync();
+
+    private async Task<IActionResult> BuildUserinfoResponseAsync()
     {
         var subjectClaim = User.GetClaim(Claims.Subject);
         if (string.IsNullOrWhiteSpace(subjectClaim))
