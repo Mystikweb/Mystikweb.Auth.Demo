@@ -1,4 +1,4 @@
-using System.Globalization;
+﻿using System.Globalization;
 
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -109,11 +109,13 @@ builder.Services.AddOpenIddict()
         if (string.IsNullOrEmpty(issuerString))
             throw new InvalidOperationException($"The configuration value for '{ServiceConstants.IDENTITY_URI_ENVIRONMENT_VARIABLE}' is missing or empty.");
 
+        var blazorApplication = DevelopmentApplications.CreateBlazorApplication();
+
         options.AddRegistration(new OpenIddictClientRegistration
         {
             Issuer = new Uri(issuerString, UriKind.Absolute),
-            ClientId = DevelopmentApplications.BlazorApplication.ClientId,
-            ClientSecret = DevelopmentApplications.BlazorApplication.ClientSecret,
+            ClientId = blazorApplication.ClientId,
+            ClientSecret = blazorApplication.ClientSecret,
             Scopes =
             {
                 Scopes.Profile,

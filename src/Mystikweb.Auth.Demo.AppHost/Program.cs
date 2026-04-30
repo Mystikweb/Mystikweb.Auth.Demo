@@ -1,4 +1,4 @@
-using Mystikweb.Auth.Demo;
+﻿using Mystikweb.Auth.Demo;
 
 var builder = DistributedApplication.CreateBuilder(args);
 
@@ -60,7 +60,7 @@ var blazorDbServer = builder.AddPostgres(ServiceConstants.BlazorService.DATABASE
 var blazorDb = blazorDbServer
     .AddDatabase(ServiceConstants.BlazorService.DATABASE_RESOURCE_NAME, ServiceConstants.BlazorService.DATABASE_NAME);
 
-builder.AddProject<Projects.Mystikweb_Auth_Demo_Web>(ServiceConstants.BlazorService.SERVER_RESOURCE_NAME)
+var blazorFrontend = builder.AddProject<Projects.Mystikweb_Auth_Demo_Web>(ServiceConstants.BlazorService.SERVER_RESOURCE_NAME)
     .WithExternalHttpEndpoints()
     .WithEnvironment(ServiceConstants.IDENTITY_URI_ENVIRONMENT_VARIABLE, identityUri)
     .WithReference(cache)
@@ -71,5 +71,7 @@ builder.AddProject<Projects.Mystikweb_Auth_Demo_Web>(ServiceConstants.BlazorServ
     .WaitFor(apiService)
     .WithReference(identity)
     .WaitFor(identity);
+
+identity.WithEnvironment(ServiceConstants.BLAZOR_FRONTEND_URI_ENVIRONMENT_VARIABLE, blazorFrontend.GetEndpoint("https"));
 
 builder.Build().Run();

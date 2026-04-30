@@ -5,6 +5,7 @@ public static class ServiceConstants
     public const string AUTHORIZATION_POLICY_NAME = "CookieAuthenticationPolicy";
     public const string DATABASE_MANAGEMENT_RESOURCE_NAME = "identity-db-management";
     public const int DATABASE_MANAGEMENT_RESOURCE_PORT = 7700;
+    public const string BLAZOR_FRONTEND_URI_ENVIRONMENT_VARIABLE = "BLAZOR_FRONTEND_URI";
     public const string IDENTITY_URI_ENVIRONMENT_VARIABLE = "IDENTITY_URI";
 
     public static class CacheService

@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 
+using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage;
@@ -9,6 +10,7 @@ using OpenIddict.Abstractions;
 namespace Mystikweb.Auth.Demo.Identity.Services;
 
 public sealed class MigrationStartupService(IHostEnvironment hostEnvironment,
+    IConfiguration configuration,
     IServiceProvider serviceProvider) : BackgroundService
 {
     public const string ActivitySourceName = "Identity Service Database Migrations";
@@ -33,7 +35,7 @@ public sealed class MigrationStartupService(IHostEnvironment hostEnvironment,
 
             // Seed the database with initial data when running in development
             if (hostEnvironment.IsDevelopment())
-                await ConfigureDevelopmentApplicationsAsync(scope.ServiceProvider, activity, stoppingToken);
+                await ConfigureDevelopmentApplicationsAsync(scope.ServiceProvider, configuration, activity, stoppingToken);
 
             activity?.AddEvent(new ActivityEvent("Database migration complete"));
             activity?.SetStatus(ActivityStatusCode.Ok);
@@ -49,11 +51,12 @@ public sealed class MigrationStartupService(IHostEnvironment hostEnvironment,
         IsCompleted = true;
     }
 
-    private static async Task ConfigureDevelopmentApplicationsAsync(IServiceProvider provider, Activity? activity, CancellationToken cancellationToken)
+    private static async Task ConfigureDevelopmentApplicationsAsync(IServiceProvider provider, IConfiguration configuration, Activity? activity, CancellationToken cancellationToken)
     {
         activity?.AddEvent(new ActivityEvent("Configuring development identity application resources."));
 
         var applicationManager = provider.GetRequiredService<IOpenIddictApplicationManager>();
+        var frontendUri = ResolveBlazorFrontendUri(configuration);
 
         if (await applicationManager.FindByClientIdAsync(DevelopmentApplications.ApiResource.ClientId!, cancellationToken) is null)
         {
@@ -63,13 +66,18 @@ public sealed class MigrationStartupService(IHostEnvironment hostEnvironment,
         else
             activity?.AddEvent(new ActivityEvent("API resource application already exists."));
 
-        if (await applicationManager.FindByClientIdAsync(DevelopmentApplications.BlazorApplication.ClientId!, cancellationToken) is null)
+        var blazorApplication = DevelopmentApplications.CreateBlazorApplication(frontendUri);
+        var existingBlazorApplication = await applicationManager.FindByClientIdAsync(blazorApplication.ClientId!, cancellationToken);
+        if (existingBlazorApplication is null)
         {
             activity?.AddEvent(new ActivityEvent("Creating Blazor resource application."));
-            await applicationManager.CreateAsync(DevelopmentApplications.BlazorApplication, cancellationToken);
+            await applicationManager.CreateAsync(blazorApplication, cancellationToken);
         }
         else
-            activity?.AddEvent(new ActivityEvent("Blazor resource application already exists."));
+        {
+            activity?.AddEvent(new ActivityEvent("Updating Blazor resource application redirect URIs."));
+            await applicationManager.UpdateAsync(existingBlazorApplication, blazorApplication, cancellationToken);
+        }
 
         var scopeManager = provider.GetRequiredService<IOpenIddictScopeManager>();
 
@@ -80,6 +88,14 @@ public sealed class MigrationStartupService(IHostEnvironment hostEnvironment,
         }
         else
             activity?.AddEvent(new ActivityEvent("API scope already exists."));
+    }
+
+    private static Uri ResolveBlazorFrontendUri(IConfiguration configuration)
+    {
+        var frontendUri = configuration.GetValue<string>(ServiceConstants.BLAZOR_FRONTEND_URI_ENVIRONMENT_VARIABLE);
+        return Uri.TryCreate(frontendUri, UriKind.Absolute, out var uri)
+            ? uri
+            : new Uri("https://localhost:7211/", UriKind.Absolute);
     }
 
     private static async Task EnsureDatabaseAsync(ApplicationDbContext dbContext, Activity? activity, CancellationToken cancellationToken)

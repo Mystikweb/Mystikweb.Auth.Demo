@@ -7,7 +7,10 @@ FROM mcr.microsoft.com/devcontainers/base:${VARIANT}
 RUN apt-get update && \
     export DEBIAN_FRONTEND=noninteractive && \
     apt-get -y upgrade && \
-    apt-get -y install --no-install-recommends software-properties-common && \
+    apt-get -y install --no-install-recommends \
+        bubblewrap \
+        socat \
+        software-properties-common && \
     apt-get clean -y && \
     rm -rf /var/lib/apt/lists/*
 

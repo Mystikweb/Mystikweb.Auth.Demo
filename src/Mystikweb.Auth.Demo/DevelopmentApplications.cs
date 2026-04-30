@@ -1,7 +1,9 @@
-namespace Mystikweb.Auth.Demo;
+﻿namespace Mystikweb.Auth.Demo;
 
 public static class DevelopmentApplications
 {
+    private static readonly Uri _defaultBlazorFrontendUri = new("https://localhost:7211/");
+
     public static OpenIddictApplicationDescriptor ApiResource => new()
     {
         ClientId = "api-resource",
@@ -12,38 +14,45 @@ public static class DevelopmentApplications
         }
     };
 
-    public static OpenIddictApplicationDescriptor BlazorApplication => new()
+    public static OpenIddictApplicationDescriptor CreateBlazorApplication(Uri? frontendUri = null)
     {
-        ClientId = "blazor-app",
-        ClientSecret = "bL4z0r$3cr3t",
-        ConsentType = ConsentTypes.Explicit,
-        DisplayName = "Blazor Application",
-        RedirectUris =
+        var normalizedFrontendUri = frontendUri ?? _defaultBlazorFrontendUri;
+        if (!normalizedFrontendUri.AbsoluteUri.EndsWith("/", StringComparison.Ordinal))
+            normalizedFrontendUri = new Uri($"{normalizedFrontendUri.AbsoluteUri}/", UriKind.Absolute);
+
+        return new OpenIddictApplicationDescriptor
         {
-            new Uri("https://localhost:7211/authentication/login-callback")
-        },
-        PostLogoutRedirectUris =
-        {
-            new Uri("https://localhost:7211/authentication/logout-callback")
-        },
-        Permissions =
-        {
-            Permissions.Endpoints.Authorization,
-            Permissions.Endpoints.EndSession,
-            Permissions.Endpoints.Token,
-            Permissions.GrantTypes.AuthorizationCode,
-            Permissions.GrantTypes.RefreshToken,
-            Permissions.ResponseTypes.Code,
-            Permissions.Scopes.Email,
-            Permissions.Scopes.Profile,
-            Permissions.Scopes.Roles,
-            Permissions.Prefixes.Scope + "api-data"
-        },
-        Requirements =
-        {
-            Requirements.Features.ProofKeyForCodeExchange
-        }
-    };
+            ClientId = "blazor-app",
+            ClientSecret = "bL4z0r$3cr3t",
+            ConsentType = ConsentTypes.Explicit,
+            DisplayName = "Blazor Application",
+            RedirectUris =
+            {
+                new Uri(normalizedFrontendUri, "authentication/login-callback")
+            },
+            PostLogoutRedirectUris =
+            {
+                new Uri(normalizedFrontendUri, "authentication/logout-callback")
+            },
+            Permissions =
+            {
+                Permissions.Endpoints.Authorization,
+                Permissions.Endpoints.EndSession,
+                Permissions.Endpoints.Token,
+                Permissions.GrantTypes.AuthorizationCode,
+                Permissions.GrantTypes.RefreshToken,
+                Permissions.ResponseTypes.Code,
+                Permissions.Scopes.Email,
+                Permissions.Scopes.Profile,
+                Permissions.Scopes.Roles,
+                Permissions.Prefixes.Scope + "api-data"
+            },
+            Requirements =
+            {
+                Requirements.Features.ProofKeyForCodeExchange
+            }
+        };
+    }
 
     public static OpenIddictScopeDescriptor ApiScope => new()
     {
