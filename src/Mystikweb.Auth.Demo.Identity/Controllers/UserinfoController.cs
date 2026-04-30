@@ -18,7 +18,9 @@ public class UserinfoController(UserManager<ApplicationUser> userManager) : Cont
     public Task<IActionResult> UserinfoGet()
         => BuildUserinfoResponseAsync();
 
-    // OIDC userinfo is authenticated via bearer token (not cookies), so CSRF does not apply.
+    // This endpoint is authenticated via a bearer access token (not a cookie), so CSRF
+    // protections do not apply. [IgnoreAntiforgeryToken] is intentional here and mirrors
+    // the pattern used by other OpenIddict protocol endpoints (e.g. /connect/token).
     [Authorize(AuthenticationSchemes = OpenIddictServerAspNetCoreDefaults.AuthenticationScheme)]
     [HttpPost("~/connect/userinfo"), Produces("application/json")]
     [IgnoreAntiforgeryToken]
