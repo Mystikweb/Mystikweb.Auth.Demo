@@ -179,7 +179,7 @@ public sealed class AuthenticationController : Controller
     // Note: this controller uses the same callback action for all providers
     // but for users who prefer using a different action per provider,
     // the following action can be split into separate actions.
-    [HttpGet("logout-callback/{provider?}"), IgnoreAntiforgeryToken]
+    [HttpGet("logout-callback/{provider?}")]
     public async Task<ActionResult> LogOutCallback(string provider)
     {
         // Retrieve the data stored by OpenIddict in the state token created when the logout was triggered.
