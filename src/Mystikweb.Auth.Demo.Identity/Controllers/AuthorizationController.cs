@@ -20,8 +20,15 @@ public class AuthorizationController(
     UserManager<ApplicationUser> userManager) : Controller
 {
     [HttpGet("~/connect/authorize")]
+    public Task<IActionResult> AuthorizeGet()
+        => AuthorizeCore();
+
     [HttpPost("~/connect/authorize")]
-    public async Task<IActionResult> Authorize()
+    [ValidateAntiForgeryToken]
+    public Task<IActionResult> AuthorizePost()
+        => AuthorizeCore();
+
+    private async Task<IActionResult> AuthorizeCore()
     {
         var request = HttpContext.GetOpenIddictServerRequest() ??
             throw new InvalidOperationException("The OpenID Connect request cannot be retrieved.");
