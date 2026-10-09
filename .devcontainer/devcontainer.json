@@ -20,11 +20,11 @@
       "moby": true,
       "azureDnsAutoDetection": true,
       "installDockerBuildx": true,
+      "iptablesSwitchAtRuntime": true,
       "version": "latest",
       "dockerDashComposeVersion": "latest"
     },
     "ghcr.io/devcontainers/features/dotnet:2": {
-      "additionalVersions": "lts",
       "tabCompletions": true,
       "version": "latest"
     },
@@ -33,13 +33,22 @@
       "version": "latest"
     },
     "ghcr.io/devcontainers/features/powershell:2": {
+      "preserveHistory": true,
       "version": "latest"
     },
     "ghcr.io/devcontainers/features/node:2": {
       "nodeGypDependencies": true,
       "version": "lts",
+      "npmVersion": "lts",
       "pnpmVersion": "latest",
       "nvmVersion": "latest"
+    },
+    "ghcr.io/devcontainers/features/copilot-cli:1": {
+      "version": "latest"
+    },
+    "ghcr.io/devcontainers/features/git-lfs:1": {
+      "autoPull": true,
+      "version": "latest"
     }
   },
 
