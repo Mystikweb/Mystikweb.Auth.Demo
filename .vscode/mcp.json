@@ -1,12 +1,4 @@
 {
   "servers": {
-    "aspire": {
-      "type": "stdio",
-      "command": "aspire",
-      "args": [
-        "mcp",
-        "start"
-      ]
-    }
   }
 }
